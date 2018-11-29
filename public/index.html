@@ -12,14 +12,25 @@
 
 <div class="container">
 
+
+
 	<div id='page_divide_1'>
-			<h1>Select the city:</h1>
-			<select>
-				<option disabled selected value> -- select a city -- </option>
-				<option value="2643743">London</option>
-				<option value="3369157">Cape Town</option>
-				<option value="6167865">Toronto</option>
-			</select>
+    <div class="">
+      <label for="api">
+        <h1 id="location_city"> </h1>
+        <h2 id="location_temp"> </h2>
+      </label>
+    </div>
+
+      <div class="">
+        <form class="" action="/city" method="post">
+          <label for="">
+            <h1>Select the city:</h1>
+            <input type="text" id="new_city" name="new_city" value="">
+            <input type="button" id="city_submit" name="" value="Submit">
+          </label>
+        </form>
+      </div>
 
 		<h1>Current temperature in the city: <span id="current-temperature"></span>°C</h1>
 

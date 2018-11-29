@@ -34,33 +34,50 @@ $(document).ready(function() {
     $('#temperature').attr('class', thermostat.energyUsage());
   };
 
-  $('select').change( function() {
-    getWeather( $('select').val() );
+  $('#city_submit').click(function() {
+    var city = $('#new_city').val();
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city +  '&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
+      var location_temp = data.main.temp;
+      var location_city = data.name
+      $('#location_city').text(location_city);
+      $('#location_temp').text(location_temp);
+    });
   });
 
-  function getWeather(cityid) {
-    $.ajax({
-      url: "http://api.openweathermap.org/data/2.5/weather",
-      type: "GET",
-      dataType: "JSON",
-      data: {
-        id: cityid,
-        units: "metric",
-        APPID: "e5766314e7f43bd8e340de6c8459e0ab"
-      },
-      success: function (data) {
-        updateCityTemperature(data);
-      },
-      error: function (data, textStatus, errorThrown) {
-        //Do Something to handle error
-        alert(textStatus);
-      }
-    });
-  };
+  $.get('http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
+  var location_temp = data.main.temp;
+  var location_city = data.name
+  $('#location_city').text(location_city);
+  $('#location_temp').text(location_temp);
+  });
 
-  function updateCityTemperature(data) {
-    $('#current-temperature').text(data.main.temp)
-  }
+  // $('select').change( function() {
+  //   getWeather( $('select').val() );
+  // });
+  //
+  // function getWeather(cityid) {
+  //   $.ajax({
+  //     url: "http://api.openweathermap.org/data/2.5/weather",
+  //     type: "GET",
+  //     dataType: "JSON",
+  //     data: {
+  //       id: cityid,
+  //       units: "metric",
+  //       APPID: "e5766314e7f43bd8e340de6c8459e0ab"
+  //     },
+  //     success: function (data) {
+  //       updateCityTemperature(data);
+  //     },
+  //     error: function (data, textStatus, errorThrown) {
+  //       //Do Something to handle error
+  //       alert(textStatus);
+  //     }
+  //   });
+  // };
+  //
+  // function updateCityTemperature(data) {
+  //   $('#current-temperature').text(data.main.temp)
+  // }
 
   // london id 2643743
 
