@@ -1,5 +1,37 @@
 $(document).ready(function() {
+
   var thermostat = new Thermostat();
+  var last_city = localStorage.getItem('city');
+  console.log("last city " + last_city);
+
+  if (last_city == undefined) {
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
+        var location_temp = data.main.temp;
+        var location_city = data.name
+        $('#location_city').text(location_city);
+        $('#location_temp').text(location_temp);
+      });
+  } else {
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + last_city + '&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
+        var location_temp = data.main.temp;
+        var location_city = data.name
+        $('#location_city').text(location_city);
+        $('#location_temp').text(location_temp);
+      });
+    }
+
+    $('#city_submit').click(function() {
+        city = $('#new_city').val();
+        localStorage.setItem('city', city);
+        $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city +  '&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
+          var location_temp = data.main.temp;
+          var location_city = data.name;
+          $('#location_city').text(location_city);
+          $('#location_temp').text(location_temp);
+        });
+      });
+
+
   $('#temperature').text(thermostat.temperature);
 
   $('#increase').click( function() {
@@ -33,23 +65,6 @@ $(document).ready(function() {
     $('#temperature').text(thermostat.temperature);
     $('#temperature').attr('class', thermostat.energyUsage());
   };
-
-  $('#city_submit').click(function() {
-    var city = $('#new_city').val();
-    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city +  '&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
-      var location_temp = data.main.temp;
-      var location_city = data.name
-      $('#location_city').text(location_city);
-      $('#location_temp').text(location_temp);
-    });
-  });
-
-  $.get('http://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=a3d9eb01d4de82b9b8d0849ef604dbed&units=metric', function(data) {
-  var location_temp = data.main.temp;
-  var location_city = data.name
-  $('#location_city').text(location_city);
-  $('#location_temp').text(location_temp);
-  });
 
   // $('select').change( function() {
   //   getWeather( $('select').val() );
